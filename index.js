@@ -14,7 +14,7 @@ function parseJsonSafely(str) {
 }
 
 function onMessage(self, e) {
-  var message = parseJsonSafely(e.data);
+  var message = e.data; //parseJsonSafely(e.data);
   if (!message) {
     // Ignore - this message is not for us.
     return;

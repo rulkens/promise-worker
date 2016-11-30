@@ -29,11 +29,11 @@ function registerPromiseWorker(callback) {
         // to silence it.
         console.error('Worker caught an error:', error);
       }
-      postMessage(JSON.stringify([messageId, {
+      postMessage([messageId, {
         message: error.message
-      }]));
+      }]);
     } else {
-      postMessage(JSON.stringify([messageId, null, result]));
+      postMessage([messageId, null, result]);
     }
   }
 
