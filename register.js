@@ -1,6 +1,7 @@
 'use strict';
 
 var isPromise = require('is-promise');
+var getTransferList = require('./transfer-list');
 
 function parseJsonSafely(str) {
   try {
@@ -10,17 +11,18 @@ function parseJsonSafely(str) {
   }
 }
 
-function registerPromiseWorker(callback) {
+function registerPromiseWorker(callback, useTransferList) {
 
   function postOutgoingMessage(e, messageId, error, result) {
-    function postMessage(msg) {
+    function postMessage(msg, transferList) {
       /* istanbul ignore if */
       if (typeof self.postMessage !== 'function') { // service worker
-        e.ports[0].postMessage(msg);
+        e.ports[0].postMessage(msg, transferList || []);
       } else { // web worker
-        self.postMessage(msg);
+        self.postMessage(msg, transferList || []);
       }
     }
+
     if (error) {
       /* istanbul ignore else */
       if (typeof console !== 'undefined' && 'error' in console) {
@@ -33,7 +35,11 @@ function registerPromiseWorker(callback) {
         message: error.message
       }]);
     } else {
-      postMessage([messageId, null, result]);
+      // @TODO: extract all array buffers from the message
+      // and put them in the transferList to transfer ownership
+      var transferList = useTransferList ? getTransferList(result) : [];
+      console.log('transferList', transferList);
+      postMessage([messageId, null, result, useTransferList], transferList);
     }
   }
 
@@ -81,5 +87,6 @@ function registerPromiseWorker(callback) {
 
   self.addEventListener('message', onIncomingMessage);
 }
+
 
 module.exports = registerPromiseWorker;

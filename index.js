@@ -22,6 +22,7 @@ function onMessage(self, e) {
   var messageId = message[0];
   var error = message[1];
   var result = message[2];
+  var useTransferList = message[3];
 
   var callback = self._callbacks[messageId];
 
