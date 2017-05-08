@@ -38,7 +38,6 @@ function registerPromiseWorker(callback, useTransferList) {
       // @TODO: extract all array buffers from the message
       // and put them in the transferList to transfer ownership
       var transferList = useTransferList ? getTransferList(result) : [];
-      console.log('transferList', transferList);
       postMessage([messageId, null, result, useTransferList], transferList);
     }
   }
