@@ -15,10 +15,10 @@ module.exports = function extractTransferList(o) {
     // if it's a plain object
     if (typeof o === 'object' && o.constructor === Object) {
       Object.keys(o).forEach(function (key) {
-        if (isTransferable(o[key])) {
+        if (isTransferable(o[key]) && transferables.indexOf(o[key]) < 0) {
           transferables.push(o[key]);
         }
-        if(isTypedArray(o[key])){
+        if(isTypedArray(o[key]) && transferables.indexOf(o[key].buffer) < 0){
           transferables.push(o[key].buffer);
         }
         if (isTraversable(o[key])) traverse(o[key]);
