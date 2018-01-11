@@ -36,8 +36,12 @@ module.exports = function extractTransferList(o) {
 }
 
 function isTransferable(o) {
-  // @TODO: make sure MessagePort and ImageBitmap exist;
-  return o instanceof ArrayBuffer || o instanceof MessagePort || o instanceof ImageBitmap;
+  // make sure ArrayBuffer, MessagePort and ImageBitmap types exist before checking against them
+  var isArrayBuffer = (typeof ArrayBuffer !== 'undefined') && (o instanceof ArrayBuffer);
+  var isMessagePort = (typeof MessagePort !== 'undefined') && (o instanceof MessagePort);
+  var isImageBitmap = (typeof ImageBitmap !== 'undefined') && (o instanceof ImageBitmap);
+
+  return isArrayBuffer || isMessagePort || isImageBitmap;
 }
 
 function isTraversable(o) {
