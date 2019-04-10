@@ -40,8 +40,10 @@ function isTransferable(o) {
   var isArrayBuffer = (typeof ArrayBuffer !== 'undefined') && (o instanceof ArrayBuffer);
   var isMessagePort = (typeof MessagePort !== 'undefined') && (o instanceof MessagePort);
   var isImageBitmap = (typeof ImageBitmap !== 'undefined') && (o instanceof ImageBitmap);
+  var isFile = (typeof File !== 'undefined') && (o instanceof File);
+  var isBlob = (typeof Blob !== 'undefined') && (o instanceof Blob);
 
-  return isArrayBuffer || isMessagePort || isImageBitmap;
+  return isArrayBuffer || isMessagePort || isImageBitmap || isFile || isBlob;
 }
 
 function isTraversable(o) {
