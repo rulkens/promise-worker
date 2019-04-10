@@ -1,5 +1,4 @@
 'use strict';
-var getTransferList = require('./transfer-list');
 
 /* istanbul ignore next */
 var MyPromise = typeof Promise !== 'undefined' ? Promise : require('lie');
@@ -47,7 +46,7 @@ function PromiseWorker(worker) {
   });
 }
 
-PromiseWorker.prototype.postMessage = function (userMessage, useTransferList) {
+PromiseWorker.prototype.postMessage = function (userMessage, transferables) {
   var self = this;
   var messageId = messageIds++;
 
@@ -72,8 +71,7 @@ PromiseWorker.prototype.postMessage = function (userMessage, useTransferList) {
       self._worker.controller.postMessage(jsonMessage, [channel.port2]);
     } else {
       // web worker
-      var transferList = useTransferList ? getTransferList(userMessage) : [];
-      self._worker.postMessage(jsonMessage);
+      self._worker.postMessage(jsonMessage, transferables);
     }
   });
 };
