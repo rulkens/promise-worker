@@ -4,6 +4,7 @@ var isPromise = require('is-promise');
 var getTransferList = require('./transfer-list');
 
 function parseJsonSafely(str) {
+  if(!(typeof str === 'string')) return str;
   try {
     return JSON.parse(str);
   } catch (e) {

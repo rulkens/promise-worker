@@ -71,7 +71,7 @@ PromiseWorker.prototype.postMessage = function (userMessage, transferables) {
       self._worker.controller.postMessage(jsonMessage, [channel.port2]);
     } else {
       // web worker
-      self._worker.postMessage(jsonMessage, transferables);
+      self._worker.postMessage(transferables ? messageToSend : jsonMessage, transferables);
     }
   });
 };
